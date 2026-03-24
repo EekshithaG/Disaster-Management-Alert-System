@@ -13,40 +13,35 @@ A system designed to assist during disaster situations by providing timely alert
 🚀 Key Features
 🔴 Real-time alert system
 👨‍💻 Simple and user-friendly interface
-📊 Efficient handling of disaster-related data
-⏱️ Quick response support for emergencies
-🌐 Scalable for different disaster scenarios
-🛠️ Tech stack
-💻 Backend: Java
-📦 Build Tool: Maven
-⚙️ (Optional: Spring Boot, MySQL if used)
-▶️ How to run
-🔹 Step 1 – Clone repository
+📊 Efficient data handling
+⏱️ Quick emergency response
+🌐 Scalable for multiple disaster scenarios
+🛠️ Tech Stack
+💻 Java
+📦 Maven
+⚙️ (Optional: Spring Boot, MySQL)
+▶️ How to Run
+1️⃣ Clone Repository
 git clone https://github.com/your-username/disaster-management-system.git
 cd disaster-management-system
-🔹 Step 2 – Build project
+2️⃣ Build Project
 mvn clean install
-🔹 Step 3 – Run application
+3️⃣ Run Application
 mvn spring-boot:run
 📁 Project Structure
 src/        → Source code  
 target/     → Compiled files (ignored)  
-pom.xml     → Dependencies & configuration  
-⚙️ How it works
+pom.xml     → Configuration  
+⚙️ How it Works
 👤 User accesses the system
-📡 System processes disaster-related data
-🔔 Alerts and updates are generated
-📱 Information is shown to users
+📡 System processes data
+🔔 Alerts are generated
+📱 Information is displayed
 📊 Output
 🚨 Disaster alerts
-📢 Emergency information
-📍 Status updates
+📢 Emergency updates
+📍 Status information
 🔮 Future Improvements
-🌦️ Integration with real-time APIs (weather, earthquakes)
-📱 Mobile application
+🌦️ Real-time API integration
+📱 Mobile app
 📍 Location-based alerts
-🤖 AI-based prediction system
-💡 Why this project
-🌍 Solves a real-world problem
-⚡ Focuses on safety and fast response
-💻 Demonstrates backend & system design skills
