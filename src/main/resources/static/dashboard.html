@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Disaster Management Dashboard</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#d8c3c3;
+text-align:center;
+}
+
+h1{
+background:#2196F3;
+color:white;
+padding:15px;
+}
+
+button{
+padding:10px 20px;
+margin:10px;
+background:#2196F3;
+color:white;
+border:none;
+cursor:pointer;
+border-radius:5px;
+}
+
+button:hover{
+background:#0b7dda;
+}
+
+.card{
+background:rgb(229, 80, 80);
+width:300px;
+margin:10px auto;
+padding:15px;
+border-radius:8px;
+box-shadow:0 2px 5px rgba(0,0,0,0.2);
+text-align:left;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Disaster Management Dashboard</h1>
+
+<h3 id="roleDisplay"></h3>
+
+<button onclick="showDisasters()">Show Disasters</button>
+
+<button id="addDisasterBtn" onclick="window.location.href='disaster.html'">
+Add Disaster
+</button>
+
+<button id="alertBtn" onclick="window.location.href='alerts.html'">
+Send Alert
+</button>
+
+<button onclick="window.location.href='emergency.html'">
+Emergency Request
+</button>
+
+<button onclick="location.href='viewRequests.html'">View Requests</button>
+
+<button onclick="location.href='viewAlerts.html'">View Alerts</button>
+
+<button onclick="openMap()">View Disaster Map</button>
+
+<h2>Active Disasters</h2>
+
+<div id="disasterList"></div>
+
+<script>
+
+window.onload=function(){
+
+let role = localStorage.getItem("loggedUserRole");
+
+document.getElementById("roleDisplay").innerText="Logged in as: " + role;
+
+if(role==="Citizen"){
+
+document.getElementById("addDisasterBtn").style.display="none";
+document.getElementById("alertBtn").style.display="none";
+
+}
+
+if(role==="Responder"){
+
+document.getElementById("addDisasterBtn").style.display="none";
+
+}
+
+showDisasters();
+
+}
+
+
+
+function showDisasters(){
+
+let disasters = JSON.parse(localStorage.getItem("disasters")) || [];
+
+let output="";
+
+if(disasters.length===0){
+
+output="<p>No disasters available</p>";
+
+}
+
+disasters.forEach(d => {
+
+output += `
+<div class="card">
+<b>Type:</b> ${d.type} <br><br>
+<b>Location:</b> ${d.location} <br><br>
+<b>Severity:</b> ${d.severity}
+</div>
+`;
+
+});
+
+document.getElementById("disasterList").innerHTML = output;
+
+}
+
+function openMap(){
+window.location.href="map.html";
+}
+
+</script>
+
+</body>
+</html>

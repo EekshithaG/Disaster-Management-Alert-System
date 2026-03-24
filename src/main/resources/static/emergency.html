@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Emergency Help Request</title>
+
+<style>
+
+body{
+background:#c3e53b;
+text-align:center;
+font-family:Arial;
+}
+
+input{
+padding:8px;
+width:250px;
+}
+
+button{
+padding:10px 20px;
+background:#2196F3;
+color:white;
+border:none;
+cursor:pointer;
+margin:5px;
+}
+
+table{
+margin:auto;
+margin-top:20px;
+border-collapse:collapse;
+}
+
+th,td{
+border:1px solid black;
+padding:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>Emergency Help Request</h2>
+
+Location:<br>
+<input type="text" id="location"><br><br>
+
+Problem:<br>
+<input type="text" id="description"><br><br>
+
+<button onclick="sendRequest()">Send Request</button>
+
+<button onclick="viewRequests()">View Requests</button>
+
+<br><br>
+
+<div id="result"></div>
+
+<script>
+
+function sendRequest(){
+
+let location=document.getElementById("location").value;
+let description=document.getElementById("description").value;
+
+fetch("http://localhost:8080/api/emergency/request",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+location:location,
+description:description
+})
+
+})
+
+.then(response=>response.text())
+
+.then(data=>{
+
+alert(data);
+
+document.getElementById("location").value="";
+document.getElementById("description").value="";
+
+})
+
+.catch(error=>{
+alert("Error sending request");
+console.log(error);
+})
+
+}
+
+function viewRequests(){
+
+fetch("http://localhost:8080/api/emergency")
+
+.then(response=>response.json())
+
+.then(data=>{
+
+let output="<table>";
+output+="<tr><th>ID</th><th>Location</th><th>Description</th><th>Status</th></tr>";
+
+for(let i=0;i<data.length;i++){
+
+output+="<tr>";
+output+="<td>"+data[i].id+"</td>";
+output+="<td>"+data[i].location+"</td>";
+output+="<td>"+data[i].description+"</td>";
+output+="<td>"+data[i].status+"</td>";
+output+="</tr>";
+
+}
+
+output+="</table>";
+
+document.getElementById("result").innerHTML=output;
+
+})
+
+.catch(error=>{
+alert("Error loading requests");
+console.log(error);
+})
+
+}
+
+</script>
+
+</body>
+</html>

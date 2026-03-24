@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Emergency Requests</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#f2f2f2;
+text-align:center;
+}
+
+h2{
+color:#333;
+}
+
+button{
+padding:10px 20px;
+background:#2196F3;
+color:white;
+border:none;
+cursor:pointer;
+margin:20px;
+font-size:16px;
+}
+
+table{
+margin:auto;
+border-collapse:collapse;
+width:70%;
+background:white;
+box-shadow:0px 2px 8px rgba(0,0,0,0.2);
+}
+
+th,td{
+padding:12px;
+border:1px solid #ccc;
+}
+
+th{
+background:#4CAF50;
+color:white;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>Emergency Requests</h2>
+
+<button onclick="loadRequests()">Load Requests</button>
+
+<table>
+
+<thead>
+
+<tr>
+<th>ID</th>
+<th>Location</th>
+<th>Description</th>
+</tr>
+
+</thead>
+
+<tbody id="requestTable">
+
+</tbody>
+
+</table>
+
+<script>
+
+function loadRequests(){
+
+fetch("http://localhost:8080/api/emergency")
+
+.then(function(response){
+return response.json();
+})
+
+.then(function(data){
+
+console.log(data);
+
+let rows="";
+
+data.forEach(function(req){
+
+rows += "<tr>";
+
+rows += "<td>"+req.id+"</td>";
+
+rows += "<td>"+(req.location || req.region)+"</td>";
+
+rows += "<td>"+(req.description || req.message)+"</td>";
+
+rows += "</tr>";
+
+});
+
+document.getElementById("requestTable").innerHTML = rows;
+
+})
+
+.catch(function(error){
+
+alert("Error loading requests");
+
+});
+
+}
+
+</script>
+
+</body>
+</html>

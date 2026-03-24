@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Disaster Alert Map</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+<style>
+body{
+font-family:Arial;
+text-align:center;
+}
+
+#map{
+height:500px;
+width:80%;
+margin:auto;
+}
+</style>
+
+</head>
+
+<body>
+
+<h2>Disaster Alert Map</h2>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+
+// create map
+var map = L.map('map').setView([11.1271,78.6569],7);
+
+// load map tiles
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+maxZoom:19
+}).addTo(map);
+
+
+// city coordinates
+var locations = {
+
+"chennai":[13.0827,80.2707],
+"vellore":[12.9165,79.1325],
+"thiruvannamalai":[12.2253,79.0747],
+"madurai":[9.9252,78.1198],
+"tirunelveli":[8.7139,77.7567],
+"coimbatore":[11.0168,76.9558],
+"salem":[11.6643,78.1460],
+"trichy":[10.7905,78.7047],
+"erode":[11.3410,77.7172],
+"tiruppur":[11.1085,77.3411],
+"thoothukudi":[8.7642,78.1348],
+"cuddalore":[11.7447,79.7680],
+"nagapattinam":[10.7654,79.8428],
+"kanchipuram":[12.8342,79.7036],
+"thanjavur":[10.7867,79.1378],
+"dindigul":[10.3624,77.9695],
+"karur":[10.9601,78.0766],
+"namakkal":[11.2194,78.1674],
+"virudhunagar":[9.5680,77.9624]
+
+};
+
+
+// fetch alerts
+fetch("http://localhost:8080/api/alerts")
+
+.then(response => response.json())
+
+.then(data => {
+
+data.forEach(alert => {
+
+let region = alert.region.toLowerCase().trim();
+
+if(locations[region]){
+
+let coords = locations[region];
+
+let iconColor;
+
+// severity color logic
+if(alert.severity === "High"){
+
+iconColor = new L.Icon({
+iconUrl: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
+iconSize:[32,32]
+});
+
+}
+else if(alert.severity === "Medium"){
+
+iconColor = new L.Icon({
+iconUrl: "https://maps.google.com/mapfiles/ms/icons/orange-dot.png",
+iconSize:[32,32]
+});
+
+}
+else{
+
+iconColor = new L.Icon({
+iconUrl: "https://maps.google.com/mapfiles/ms/icons/green-dot.png",
+iconSize:[32,32]
+});
+
+}
+
+// add marker
+let marker = L.marker(coords,{icon:iconColor}).addTo(map);
+
+marker.bindPopup(
+"<b>"+alert.message+"</b><br>"+
+"Location: "+alert.region+"<br>"+
+"Severity: "+alert.severity
+);
+
+}
+
+});
+
+});
+
+</script>
+
+</body>
+</html>

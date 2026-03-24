@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Register</title>
+</head>
+<style>
+    body{
+        text-align:center;
+        background:#9ef523;
+    }
+    button{
+      background:#2196F3;
+      color:white;
+      border:none;
+      cursor:pointer;
+    }
+</style>
+
+<body>
+
+<h2>User Registration</h2>
+
+<input id="name" placeholder="Name"><br><br>
+<input id="phone" placeholder="Phone"><br><br>
+<input id="region" placeholder="Region"><br><br>
+<input id="email" placeholder="Email"><br><br>
+<input id="password" type="password" placeholder="Password"><br><br>
+
+<label>Select Role</label><br>
+<select id="role">
+<option value="Citizen">Citizen</option>
+<option value="Responder">Responder</option>
+<option value="Admin">Admin</option>
+</select>
+
+<br><br>
+
+<button onclick="register()">Register</button>
+
+<script>
+
+function register(){
+
+let users = JSON.parse(localStorage.getItem("users")) || [];
+
+let newUser = {
+name: document.getElementById("name").value,
+phone: document.getElementById("phone").value,
+region: document.getElementById("region").value,
+email: document.getElementById("email").value,
+password: document.getElementById("password").value,
+role: document.getElementById("role").value
+};
+
+users.push(newUser);
+
+localStorage.setItem("users", JSON.stringify(users));
+
+alert("Registration Successful");
+
+window.location.href="login.html";
+
+}
+
+</script>
+
+</body>
+</html>

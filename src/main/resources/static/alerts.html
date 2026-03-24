@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Broadcast Alert</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<style>
+    body{
+        background-color: bisque;
+    }
+</style>
+
+<body>
+
+<h2>Broadcast Alert</h2>
+
+<input type="text" id="message" placeholder="Alert Message"><br><br>
+
+<input type="text" id="region" placeholder="Region"><br><br>
+
+<select id="severity">
+<option value="Low">Low</option>
+<option value="Medium">Medium</option>
+<option value="High">High</option>
+</select>
+
+<br><br>
+
+<button type="button" onclick="sendAlert()">Send Alert</button>
+<button onclick="loadAlerts()">View Alerts</button>
+
+<p id="result"></p>
+
+<div id="alertsList"></div>
+
+<script>
+
+function sendAlert(){
+
+fetch("http://localhost:8080/api/alerts/broadcast",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+message:document.getElementById("message").value,
+region:document.getElementById("region").value,
+severity:document.getElementById("severity").value
+})
+
+})
+
+.then(response=>response.text())
+
+.then(data=>{
+document.getElementById("result").innerText=data;
+})
+
+.catch(error=>console.log(error));
+
+}
+
+
+
+function loadAlerts(){
+
+fetch("http://localhost:8080/api/alerts")
+
+.then(response=>response.json())
+
+.then(data=>{
+
+let output="<h3>Alert History</h3>";
+
+data.forEach(a=>{
+
+output+=`
+<div class="card">
+Message: ${a.message} <br>
+Region: ${a.region} <br>
+Severity: ${a.severity} <br>
+Time: ${a.time}
+</div>
+`;
+
+});
+
+document.getElementById("alertsList").innerHTML=output;
+
+});
+
+}
+
+</script>
+
+</body>
+</html>

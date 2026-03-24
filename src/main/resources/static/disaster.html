@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Add Disaster</title>
+</head>
+<style>
+    body{
+        background-color: aqua;
+        text-align:center;
+    }
+    button{
+      padding:10px 20px;
+      background:#ec6606;
+      color:white;
+      border:none;
+      cursor:pointer;
+    }
+</style>
+
+<body>
+
+<h2>Add Disaster</h2>
+
+<input id="type" placeholder="Disaster Type"><br><br>
+<input id="location" placeholder="Location"><br><br>
+<input id="severity" placeholder="Severity"><br><br>
+
+<button onclick="addDisaster()">Add Disaster</button>
+
+<script>
+
+function addDisaster(){
+
+let disasters = JSON.parse(localStorage.getItem("disasters")) || [];
+
+let disaster = {
+type: document.getElementById("type").value,
+location: document.getElementById("location").value,
+severity: document.getElementById("severity").value
+};
+
+disasters.push(disaster);
+
+localStorage.setItem("disasters", JSON.stringify(disasters));
+
+alert("Disaster added");
+
+}
+
+</script>
+
+</body>
+</html>

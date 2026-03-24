@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>View Alerts</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f2f2f2;
+text-align:center;
+}
+
+.card{
+background:white;
+width:300px;
+margin:15px auto;
+padding:15px;
+box-shadow:0 2px 5px rgba(0,0,0,0.2);
+}
+
+button{
+padding:10px 20px;
+background:#ff5722;
+color:white;
+border:none;
+cursor:pointer;
+margin:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>Disaster Alerts</h2>
+
+<button onclick="loadAlerts()">View Alerts</button>
+
+<div id="alertBox"></div>
+
+<script>
+
+function loadAlerts(){
+
+fetch("http://localhost:8080/api/alerts")
+
+.then(response => response.json())
+
+.then(data => {
+
+let output="";
+
+data.forEach(a => {
+
+output += `
+<div class="card">
+<h3>${a.message}</h3>
+<p><b>Region:</b> ${a.region}</p>
+<p><b>Severity:</b> ${a.severity}</p>
+</div>
+<button onclick="deleteAlert(${alert.id})">
+Delete
+</button>
+`;
+
+});
+
+document.getElementById("alertBox").innerHTML = output;
+
+})
+
+.catch(error => {
+
+alert("Error loading alerts");
+
+});
+
+}
+
+function deleteAlert(id){
+
+fetch("http://localhost:8080/api/alerts/"+id,{
+method:"DELETE"
+})
+
+.then(res=>res.text())
+
+.then(msg=>{
+alert(msg);
+loadAlerts();
+});
+
+}
+
+</script>
+
+</body>
+</html>
